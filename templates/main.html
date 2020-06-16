@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
+<link rel="stylesheet" href="static/css/common.css">
+   <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+   <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<title>Untitled Document</title>
+</head>
+
+<body>
+<div style="margin: 0 10px 50px 10px">
+  <h1 class="text-center"> Academic Paper Manager 
+	<span class="badge">栖月</span>
+	</h1>
+	<p>Welcome, {{this_user}}</p>
+<p> Copyright: <strong>Cloudy Lu,</strong> 2020-<script>document.write(new Date().getFullYear());</script>. All rights reserved.</p>
+<form action="log-out" method="post" class="form-group">
+<input class="btn btn-danger center-block" type="submit" value="Log Out" />
+</form>
+<ul id="myTab" class="nav nav-tabs">
+	<li {{manage_active_1|safe}}><!--class="active"-->
+		<a href="#manage" data-toggle="tab">
+			MANAGE PAPERS
+		</a>
+	</li>
+	<li {{search_active_1|safe}}>
+		<a href="#search" data-toggle="tab">
+			SEARCH PAPERS
+		</a>
+	</li>
+
+</ul>
+<div id="myTabContent" class="tab-content">
+	<div class="tab-pane fade {{manage_active_2|safe}}" id="manage"><br>
+<form action="delete-project" method="post">
+<table class="table">
+  <caption>My Projects</caption>
+  <thead>
+    <tr>
+	  <th>Delete</th>
+      <th>Project Name</th>
+    </tr>
+  </thead>
+  <tbody>
+	  {% for project in display_projects %}
+    <tr>
+	  <td>
+	    <label>
+	      <input type="checkbox" name="delete-list" value="{{project.id}}">Del
+	    </label>
+	  </td>
+      <td>{{project.name}}</td>
+    </tr>
+	  {% endfor %}
+  </tbody>
+</table>
+	<div class="form-group">
+<input type="submit" class="btn btn-danger" value="Delete" />
+		</div>
+</form>
+	
+	
+		<p>{{project.user}} {{project.name}}</p>
+
+		<div class="panel panel-info">
+		<div class="panel-heading">Add a Project</div>
+		<div class="panel-body">
+		<form method="post" action="add-project">
+	{{add_project}}
+	<input type="submit" class="btn btn-success center-block" />
+	</form>
+		</div>
+		</div>
+	<form action="delete-paper" method="post">
+<table class="table">
+  <caption>My Papers</caption>
+  <thead>
+    <tr>
+	  <th>Delete</th>
+	  <th>Download</th>
+      <th>Project</th>
+      <th>Title</th>
+		<th>Author</th>
+		<th>Size (MB)</th>
+    </tr>
+  </thead>
+  <tbody>
+	  {% for paper in display_papers %}
+    <tr>
+	  <td>
+	    <label>
+	      <input type="checkbox" name="delete-list" value="{{paper.id}}">Del
+	    </label>
+	  </td>
+		<td><a href="download-{{paper.id}}">Download</a></td>
+      <td>{{paper.project}}</td>
+      <td>{{paper.name}}</td>
+		<td>{{paper.author}}</td>
+		<td>{{paper.filesize}}</td>
+    </tr>
+	  {% endfor %}
+  </tbody>
+</table>
+	<div class="form-group">
+<input type="submit" class="btn btn-danger" value="Delete" />
+		</div>
+</form>
+		<div class="panel panel-info">
+		<div class="panel-heading">Add a Paper</div>
+		<div class="panel-body">
+	<form method="post" enctype="multipart/form-data" action="add-paper">
+	{{add_paper}}
+	<input type="submit" class="btn btn-success center-block" {{space_full|safe}} />
+	</form>
+		</div>
+		</div>
+	
+	</div>
+	<div class="tab-pane fade {{search_active_2|safe}}" id="search"><br> <!--in active-->
+		<div class="panel panel-info">
+		<div class="panel-heading">Search</div>
+		<div class="panel-body">
+	<form method="post" action="search">
+	{{search_box}}
+	<input type="submit" class="btn btn-success center-block" value="Search" />
+	</form>
+		</div>
+		</div>
+			<table class="table">
+  <caption>Matched Papers</caption>
+  <thead>
+    <tr>
+	  <th>Download</th>
+      <th>Project</th>
+      <th>Title</th>
+		<th>Author</th>
+		<th>Size (MB)</th>
+    </tr>
+  </thead>
+  <tbody>
+	  {% for paper in display_result %}
+    <tr>
+		<td><a href="download-{{paper.id}}">Download</a></td>
+      <td>{{paper.project}}</td>
+      <td>{{paper.name}}</td>
+		<td>{{paper.author}}</td>
+		<td>{{paper.filesize}}</td>
+    </tr>
+	  {% endfor %}
+  </tbody>
+</table>
+	</div>
+
+</div>
+</div> <!--Page Border-->
+</body>
+</html>
+
