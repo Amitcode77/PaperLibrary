@@ -140,7 +140,7 @@ def main(request, init=None, search=None):
     return render(request, "main.html", context)
 
 
-@permission_required('PaperManager.view_papers')
+@permission_required('PaperManager.view_paper')
 def download(request):
     index = int(request.path.lstrip('/download-'))
     filepath = Paper.objects.get(id=index).filebin.name
