@@ -16,7 +16,7 @@ class Project(models.Model):
 
 
 class Space(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, unique=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     filesize = models.IntegerField(verbose_name="File Size (MB)")
 
     def __str__(self):
